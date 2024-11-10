@@ -15,7 +15,9 @@ public class ErrorMessage {
 
         {
             // パスワード空白チェック用エラーメッセージ
-            put(ErrorKinds.BLANK_ERROR, new ArrayList<String>(Arrays.asList("passwordError", "値を入力してください")));
+            put(ErrorKinds.BLANK_ERROR, new ArrayList<String>(Arrays.asList("nameError", "値を入力してください")));
+            // 名前の桁数チェックエラー
+            put(ErrorKinds.NAME_LENGTH_ERROR, new ArrayList<String>(Arrays.asList("nameError", "20文字以下で入力してください")));
             // パスワードの半角英数字チェック用エラーメッセージ
             put(ErrorKinds.HALFSIZE_ERROR,
                     new ArrayList<String>(Arrays.asList("passwordError", "パスワードは半角英数字のみで入力してください")));

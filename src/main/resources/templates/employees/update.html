@@ -33,7 +33,7 @@
                                     <div class="mb-3">
                                         <label for="name" class="form-label">氏名</label>
                                         <input type="text" class="form-control" th:field="*{name}" th:errorclass="err" id="name">
-                                        <span class="text-danger" th:errors="*{name}"</span>
+                                        <span th:if="${nameError} neq null" th:text="${nameError}" class="text-danger"></span>
                                     </div>
 
                                     <!-- パスワード -->

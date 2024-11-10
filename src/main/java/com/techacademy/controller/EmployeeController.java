@@ -100,7 +100,7 @@ public class EmployeeController {
 
     // 従業員更新画面
     @GetMapping(value="/{code}/update")
-    public String edit(@PathVariable String code, Model model) {
+    public String showUpdate(@PathVariable String code, Model model) {
         // 従業員データを取得
         Employee employee = employeeService.findByCode(code);
 
@@ -111,38 +111,42 @@ public class EmployeeController {
     }
 
     // 従業員更新処理
-    @PostMapping(value ="/{code}/update")
+    @PostMapping(value = "/{code}/update")
     public String update(@PathVariable String code, @Validated Employee employee,
-                        BindingResult res, Model model) {
+            BindingResult res, Model model) {
 
-        // 入力チェック
+        // 氏名の空白チェック
+        if ("".equals(employee.getName())) {
+            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.BLANK_ERROR),
+                    ErrorMessage.getErrorValue(ErrorKinds.BLANK_ERROR));
+            model.addAttribute("employee", employeeService.findByCode(code));
+            return showUpdate(code, model);
+        }
+
+        // 氏名の桁数チェック
+        if (employee.getName().length() > 20) {
+            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.NAME_LENGTH_ERROR),
+                    ErrorMessage.getErrorValue(ErrorKinds.NAME_LENGTH_ERROR));
+            model.addAttribute("employee", employeeService.findByCode(code));
+            return showUpdate(code, model);
+        }
+
         if (res.hasErrors()) {
-            return edit(code, model);
-        }
-        // パスワードが空の場合は、既存のパスワードを使用
-        if ("".equals(employee.getPassword())) {
-            Employee existingEmployee = employeeService.findByCode(code);
-            employee.setPassword(existingEmployee.getPassword());
+            model.addAttribute("employee", employeeService.findByCode(code));
+            return showUpdate(code, model);
         }
 
-        try {
-            ErrorKinds result = employeeService.save(employee);
-
-            if (ErrorMessage.contains(result)) {
-                model.addAttribute(ErrorMessage.getErrorName(result),
-                                 ErrorMessage.getErrorValue(result));
-                return edit(code, model);
-            }
-
-        } catch (DataIntegrityViolationException e) {
-            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DUPLICATE_EXCEPTION_ERROR),
-                             ErrorMessage.getErrorValue(ErrorKinds.DUPLICATE_EXCEPTION_ERROR));
-            return edit(code, model);
+        ErrorKinds result = employeeService.update(employee);
+        if (ErrorKinds.SUCCESS != result) {
+            // エラーメッセージをModelに追加
+            model.addAttribute(ErrorMessage.getErrorName(result),
+                             ErrorMessage.getErrorValue(result));
+            model.addAttribute("employee", employeeService.findByCode(code));
+            return showUpdate(code, model);
         }
 
         return "redirect:/employees";
     }
-
 
 
     // 従業員削除処理

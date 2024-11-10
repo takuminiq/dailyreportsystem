@@ -10,6 +10,8 @@ public enum ErrorKinds {
     HALFSIZE_ERROR,
     // 桁数(8桁~16桁以外)チェックエラー
     RANGECHECK_ERROR,
+    //名前の桁数チェックエラー
+    NAME_LENGTH_ERROR,
     // 重複チェックエラー(例外あり)
     DUPLICATE_EXCEPTION_ERROR,
     // 重複チェックエラー(例外なし)
