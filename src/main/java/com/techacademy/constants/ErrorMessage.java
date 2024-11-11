@@ -18,6 +18,10 @@ public class ErrorMessage {
             put(ErrorKinds.BLANK_ERROR, new ArrayList<String>(Arrays.asList("nameError", "値を入力してください")));
             // 名前の桁数チェックエラー
             put(ErrorKinds.NAME_LENGTH_ERROR, new ArrayList<String>(Arrays.asList("nameError", "20文字以下で入力してください")));
+            // タイトルの桁数チェックエラー
+            put(ErrorKinds.TITLE_LENGTH_ERROR, new ArrayList<String>(Arrays.asList("titleError", "100文字以下で入力してください")));
+            // 内容の桁数チェックエラー
+            put(ErrorKinds.CONTENT_LENGTH_ERROR, new ArrayList<String>(Arrays.asList("contentError", "600文字以下で入力してください")));
             // パスワードの半角英数字チェック用エラーメッセージ
             put(ErrorKinds.HALFSIZE_ERROR,
                     new ArrayList<String>(Arrays.asList("passwordError", "パスワードは半角英数字のみで入力してください")));

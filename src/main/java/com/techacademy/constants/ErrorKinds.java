@@ -12,6 +12,10 @@ public enum ErrorKinds {
     RANGECHECK_ERROR,
     //名前の桁数チェックエラー
     NAME_LENGTH_ERROR,
+    // タイトルの桁数チェックエラー
+    TITLE_LENGTH_ERROR,
+    // 内容の桁数チェックエラー
+    CONTENT_LENGTH_ERROR,
     // 重複チェックエラー(例外あり)
     DUPLICATE_EXCEPTION_ERROR,
     // 重複チェックエラー(例外なし)
