@@ -120,7 +120,7 @@ public class DailyReportController {
 
     // 日報更新処理
     @PostMapping("/{id}/update")
-    public String update(@PathVariable Integer id, @Validated @ModelAttribute Report report, BindingResult res, Model model) {
+    public String update(@PathVariable Integer id,@Validated  @ModelAttribute Report report, BindingResult res, Model model) {
         // タイトルの桁数チェック
         if (report.getTitle() != null && report.getTitle().length() > 100) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.TITLE_LENGTH_ERROR),
@@ -134,19 +134,17 @@ public class DailyReportController {
                     ErrorMessage.getErrorValue(ErrorKinds.CONTENT_LENGTH_ERROR));
             return showUpdate(id, model);
         }
-        if (res.hasErrors()) {
-            return showUpdate(id, model);
-        }
 
+        // Check for validation errors
         if (res.hasErrors()) {
-            model.addAttribute("report", reportService.findById(id));
+            model.addAttribute("report", report);
             return showUpdate(id, model);
         }
 
         report.setId(id); // IDを設定
         ErrorKinds result = reportService.update(report);
 
-        if (ErrorKinds.SUCCESS != result) {
+        if (!ErrorKinds.SUCCESS.equals(result)) {
             model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
             model.addAttribute("report", reportService.findById(id));
             return showUpdate(id, model);
