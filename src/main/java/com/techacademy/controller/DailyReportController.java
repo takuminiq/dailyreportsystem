@@ -114,7 +114,9 @@ public class DailyReportController {
     // 日報更新画面
     @GetMapping("/{id}/update")
     public String showUpdate(@PathVariable Integer id, Model model) {
-        model.addAttribute("report", reportService.findById(id));
+        if(id != null) {
+            model.addAttribute("report", reportService.findById(id));
+        }
         return "reports/update";
     }
 
@@ -125,20 +127,20 @@ public class DailyReportController {
         if (report.getTitle() != null && report.getTitle().length() > 100) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.TITLE_LENGTH_ERROR),
                     ErrorMessage.getErrorValue(ErrorKinds.TITLE_LENGTH_ERROR));
-            return showUpdate(id, model);
+            return showUpdate(null, model);
         }
 
         // 内容の桁数チェック
         if (report.getContent() != null && report.getContent().length() > 600) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.CONTENT_LENGTH_ERROR),
                     ErrorMessage.getErrorValue(ErrorKinds.CONTENT_LENGTH_ERROR));
-            return showUpdate(id, model);
+            return showUpdate(null, model);
         }
 
         // Check for validation errors
         if (res.hasErrors()) {
             model.addAttribute("report", report);
-            return showUpdate(id, model);
+            return showUpdate(null, model);
         }
 
         report.setId(id); // IDを設定
@@ -147,7 +149,7 @@ public class DailyReportController {
         if (!ErrorKinds.SUCCESS.equals(result)) {
             model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
             model.addAttribute("report", reportService.findById(id));
-            return showUpdate(id, model);
+            return showUpdate(null, model);
         }
 
         return "redirect:/reports";
