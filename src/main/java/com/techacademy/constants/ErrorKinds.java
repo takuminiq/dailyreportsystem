@@ -10,6 +10,8 @@ public enum ErrorKinds {
     HALFSIZE_ERROR,
     // 桁数(8桁~16桁以外)チェックエラー
     RANGECHECK_ERROR,
+    // 日付が既に存在するエラー
+    DATE_EXISTS_ERROR, // 日付が既に存在するエラー
     //名前の桁数チェックエラー
     NAME_LENGTH_ERROR,
     // タイトルの桁数チェックエラー

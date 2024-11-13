@@ -16,6 +16,8 @@ public class ErrorMessage {
         {
             // パスワード空白チェック用エラーメッセージ
             put(ErrorKinds.BLANK_ERROR, new ArrayList<String>(Arrays.asList("nameError", "値を入力してください")));
+            // 日付が既に存在するエラー
+            put(ErrorKinds.DATE_EXISTS_ERROR, new ArrayList<String>(Arrays.asList("dateError", "既に登録されている日付です")));
             // 名前の桁数チェックエラー
             put(ErrorKinds.NAME_LENGTH_ERROR, new ArrayList<String>(Arrays.asList("nameError", "20文字以下で入力してください")));
             // タイトルの桁数チェックエラー

@@ -1,5 +1,6 @@
 package com.techacademy.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,14 @@ public class DailyReportController {
     // 日報新規登録処理
     @PostMapping("/add")
     public String add(@Validated @ModelAttribute Report report, BindingResult res, Model model, @AuthenticationPrincipal UserDetail userDetail) {
+        // 日付のチェック
+        LocalDate reportDate = report.getReportDate(); // 日報の日付を取得
+        if (reportDate != null && reportService.existsByEmployeeAndDate(userDetail.getEmployee(), reportDate)) {
+            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATE_EXISTS_ERROR),
+                    ErrorMessage.getErrorValue(ErrorKinds.DATE_EXISTS_ERROR));
+            return create(report, userDetail, model);
+        }
+
         // タイトルの桁数チェック
         if (report.getTitle() != null && report.getTitle().length() > 100) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.TITLE_LENGTH_ERROR),

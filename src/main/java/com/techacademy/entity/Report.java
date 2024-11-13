@@ -31,7 +31,7 @@ public class Report {
 
     // 日付
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "report_date",nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reportDate;
 

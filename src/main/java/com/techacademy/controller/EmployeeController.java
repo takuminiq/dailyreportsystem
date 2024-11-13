@@ -1,6 +1,5 @@
 package com.techacademy.controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,9 +18,7 @@ import com.techacademy.constants.ErrorKinds;
 import com.techacademy.constants.ErrorMessage;
 
 import com.techacademy.entity.Employee;
-import com.techacademy.entity.Report;
 import com.techacademy.service.EmployeeService;
-import com.techacademy.service.ReportService;
 import com.techacademy.service.UserDetail;
 
 @Controller

@@ -1,5 +1,6 @@
 package com.techacademy.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,12 @@ public class ReportService {
     public List<Report> findByEmployee(Employee employee) {
         return reportRepository.findByEmployee(employee);
     }
+
+    // 日報が存在するか確認するメソッド
+    public boolean existsByEmployeeAndDate(Employee employee, LocalDate reportDate) {
+        return reportRepository.existsByEmployeeAndReportDate(employee, reportDate);
+    }
+
 
     // 日報保存
     @Transactional
