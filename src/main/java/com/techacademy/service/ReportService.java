@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.entity.Report;
+import com.techacademy.entity.Employee;
 import com.techacademy.repository.ReportRepository;
 
 @Service
@@ -25,6 +26,11 @@ public class ReportService {
     // 自分が登録した日報を取得
     public List<Report> findByEmployeeCode(String employeeCode) {
         return reportRepository.findByEmployeeCode(employeeCode);
+    }
+
+    // 従業員に紐づく日報を取得するメソッド
+    public List<Report> findByEmployee(Employee employee) {
+        return reportRepository.findByEmployee(employee);
     }
 
     // 日報保存
@@ -95,4 +101,6 @@ public class ReportService {
     public List<Report> findByEmployeeCode1(String employeeCode) {
         return reportRepository.findByEmployeeCode(employeeCode);
     }
+
+
 }

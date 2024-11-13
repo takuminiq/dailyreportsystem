@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.entity.Employee;
+import com.techacademy.entity.Report;
+import com.techacademy.service.ReportService;
 import com.techacademy.repository.EmployeeRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,9 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ReportService reportService; // ReportServiceをインジェクト
 
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
@@ -88,6 +93,16 @@ public class EmployeeService {
             return ErrorKinds.LOGINCHECK_ERROR;
         }
         Employee employee = findByCode(code);
+        if (employee == null) {
+            return ErrorKinds.DUPLICATE_ERROR; // 従業員が見つからない場合のエラーハンドリング
+        }
+
+        // 削除対象の従業員に紐づいている日報情報の削除
+        List<Report> reportList = reportService.findByEmployee(employee);
+        for (Report report : reportList) {
+            reportService.delete(report.getId());
+        }
+
         LocalDateTime now = LocalDateTime.now();
         employee.setUpdatedAt(now);
         employee.setDeleteFlg(true);

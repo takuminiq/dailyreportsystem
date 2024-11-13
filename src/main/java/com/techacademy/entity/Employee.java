@@ -43,6 +43,7 @@ public class Employee {
         public void setDeleteFlg(Integer deleteFlg) {
             this.deleteFlg = deleteFlg;
         }
+
     }
 
     // ID
