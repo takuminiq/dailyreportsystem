@@ -39,6 +39,9 @@ public class ReportService {
         return reportRepository.existsByEmployeeAndReportDate(employee, reportDate);
     }
 
+    public boolean existsByEmployeeAndDateExcludingId(Employee employee, LocalDate reportDate, Integer id) {
+        return reportRepository.existsByEmployeeAndReportDateAndIdNot(employee, reportDate, id);
+    }
 
     // 日報保存
     @Transactional
@@ -108,6 +111,8 @@ public class ReportService {
     public List<Report> findByEmployeeCode1(String employeeCode) {
         return reportRepository.findByEmployeeCode(employeeCode);
     }
+
+
 
 
 }

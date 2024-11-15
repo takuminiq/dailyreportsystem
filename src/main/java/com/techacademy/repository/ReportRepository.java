@@ -18,4 +18,7 @@ public interface ReportRepository extends JpaRepository<Report, Integer> {
 
     // 従業員と日付に基づいて日報が存在するか確認するメソッド
     boolean existsByEmployeeAndReportDate(Employee employee, LocalDate reportDate);
+
+    boolean existsByEmployeeAndReportDateAndIdNot(Employee employee, LocalDate reportDate, Integer id);
+
 }

@@ -133,11 +133,13 @@ public class DailyReportController {
     @PostMapping("/{id}/update")
     public String update(@PathVariable Integer id,@Validated  @ModelAttribute Report report, BindingResult res, Model model) {
         LocalDate reportDate = report.getReportDate(); // 日報の日付を取得
-        if (reportDate != null && reportService.existsByEmployeeAndDate(report.getEmployee(), reportDate)) {
+        // 更新対象の日報を除外して、同じ従業員・日付のデータが存在するかチェック
+        if (reportDate != null && reportService.existsByEmployeeAndDateExcludingId(report.getEmployee(), reportDate, id)) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATE_EXISTS_ERROR),
                     ErrorMessage.getErrorValue(ErrorKinds.DATE_EXISTS_ERROR));
-            return showUpdate(id, model); 
+            return showUpdate(id, model);
         }
+
         // タイトルの桁数チェック
         if (report.getTitle() != null && report.getTitle().length() > 100) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.TITLE_LENGTH_ERROR),
